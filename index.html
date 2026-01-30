@@ -5,63 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>劉羿伶 Yi-Lin Liu | 擊樂・表演・生命</title>
     <style>
-        /* --- 0. 全域變數與色票 (暖色系) --- */
+        /* =========================================
+           1. 全域設定與暖色系色票
+           ========================================= */
         :root {
-            --primary-color: #e68a8a; /* 溫柔的豆沙粉 */
-            --accent-color: #d45d5d;  /* 強烈的胭脂紅 */
-            --bg-color: #fff9f5;      /* 溫暖的米膚色背景 */
-            --text-color: #5d4037;    /* 深咖啡色文字 */
-            --wave-1: rgba(255, 183, 178, 0.7);
-            --wave-2: rgba(255, 218, 193, 0.6);
-            --wave-3: rgba(255, 154, 158, 0.4);
+            --primary-pink: #e68a8a;   /* 溫柔豆沙粉 */
+            --deep-red: #d45d5d;       /* 胭脂紅 (強調色) */
+            --bg-cream: #fff9f5;       /* 溫暖米膚色背景 */
+            --text-brown: #5d4037;     /* 深咖啡色文字 */
+            --wave-light: rgba(255, 183, 178, 0.5);
+            --wave-med: rgba(255, 218, 193, 0.6);
+            --wave-deep: rgba(255, 154, 158, 0.4);
         }
 
         body {
             margin: 0;
             font-family: "Helvetica Neue", "Microsoft JhengHei", sans-serif;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            overflow-x: hidden;
+            color: var(--text-brown);
+            background-color: var(--bg-cream);
+            overflow-x: hidden; /* 防止橫向卷軸 */
+            scroll-behavior: smooth;
         }
 
-        /* --- 1. 開場愛心遮罩 (Loading) --- */
+        /* =========================================
+           2. 開場動畫 (Loading Screen)
+           ========================================= */
         #start-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff0e6; /* 蜜桃色遮罩 */
+            background: #fff0e6;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: opacity 1s ease-out, transform 1s ease-out;
             cursor: pointer;
         }
         
-        /* 跳動的愛心 */
         .heart-loader {
-            width: 80px;
-            height: 80px;
-            background-color: var(--accent-color);
+            width: 60px;
+            height: 60px;
+            background-color: var(--deep-red);
             transform: rotate(45deg);
             animation: heartBeat 1.2s infinite ease-in-out;
             position: relative;
         }
         .heart-loader::before, .heart-loader::after {
             content: "";
-            width: 80px;
-            height: 80px;
-            background-color: var(--accent-color);
+            width: 60px;
+            height: 60px;
+            background-color: var(--deep-red);
             border-radius: 50%;
             position: absolute;
         }
-        .heart-loader::before { left: -40px; }
-        .heart-loader::after { top: -40px; }
+        .heart-loader::before { left: -30px; }
+        .heart-loader::after { top: -30px; }
 
         .click-hint {
-            margin-top: 60px;
+            margin-top: 50px;
             font-size: 1.2rem;
-            color: var(--accent-color);
+            color: var(--deep-red);
             opacity: 0.7;
             letter-spacing: 2px;
             animation: fadeHint 2s infinite;
@@ -69,8 +73,6 @@
 
         @keyframes heartBeat {
             0% { transform: rotate(45deg) scale(0.8); }
-            5% { transform: rotate(45deg) scale(0.9); }
-            10% { transform: rotate(45deg) scale(0.8); }
             15% { transform: rotate(45deg) scale(1); }
             50% { transform: rotate(45deg) scale(0.8); }
             100% { transform: rotate(45deg) scale(0.8); }
@@ -80,7 +82,9 @@
             50% { opacity: 1; }
         }
 
-        /* --- 2. 導覽列 --- */
+        /* =========================================
+           3. 導覽列 (Navigation)
+           ========================================= */
         nav {
             position: fixed;
             top: 0;
@@ -90,20 +94,21 @@
             z-index: 1000;
             box-shadow: 0 4px 10px rgba(212, 93, 93, 0.1);
             text-align: center;
-            display: none; /* 一開始隱藏，點擊後顯示 */
+            display: none; /* 啟動後才顯示 */
         }
         nav a {
             margin: 0 15px;
             text-decoration: none;
-            color: var(--text-color);
+            color: var(--text-brown);
             font-weight: bold;
             font-size: 1.1rem;
             transition: color 0.3s;
         }
         nav a:hover {
-            color: var(--accent-color);
+            color: var(--deep-red);
         }
 
+        /* 通用區塊設定 */
         section {
             min-height: 100vh;
             padding: 80px 20px;
@@ -114,98 +119,105 @@
             position: relative;
         }
 
-        /* --- 3. 主頁：生命有機體 --- */
+        /* =========================================
+           4. 主頁 (Home)
+           ========================================= */
         #home {
             background: linear-gradient(180deg, #fff0e6 0%, #ffd1d1 100%);
             justify-content: center;
             overflow: hidden;
-            cursor: crosshair; /* 提示可以互動 */
+            cursor: crosshair;
         }
 
-        /* Slogan 樣式 */
         .slogan-container {
             position: relative;
             z-index: 10;
             text-align: center;
-            pointer-events: none; /* 讓滑鼠可以直接穿透去觸發背景特效 */
+            pointer-events: none; /* 讓滑鼠穿透去觸發背景特效 */
         }
         .slogan-main {
             font-size: 2.5rem;
             font-weight: bold;
-            color: var(--text-color);
             margin-bottom: 20px;
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.6);
             letter-spacing: 5px;
+            line-height: 1.4;
         }
         .slogan-sub {
             font-size: 1.2rem;
-            color: var(--accent-color);
+            color: var(--deep-red);
             letter-spacing: 3px;
+            margin-bottom: 40px;
         }
 
-        /* 生成的小生物 (JS控制) */
+        /* 生成的漂浮泡泡 (Spore) */
         .spore {
             position: absolute;
-            background: radial-gradient(circle, #fff 0%, var(--primary-color) 100%);
             border-radius: 50%;
             pointer-events: none;
             animation: floatUp 2s linear forwards;
             opacity: 0.8;
+            z-index: 1;
         }
         @keyframes floatUp {
             0% { transform: translateY(0) scale(0.5); opacity: 0.8; }
             100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
         }
 
-        /* SVG 海浪動畫 */
+        /* SVG 海浪 */
         .waves-container {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
+            bottom: 0; left: 0;
+            width: 100%; height: 150px;
             overflow: hidden;
             line-height: 0;
+            z-index: 2;
         }
         .waves-svg {
-            position: relative;
             display: block;
             width: calc(100% + 1.3px);
             height: 150px;
         }
-        .waves-svg .shape-fill { fill: var(--wave-1); }
-        
-        /* 讓波浪動起來 */
         .parallax > use {
             animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
         }
-        .parallax > use:nth-child(1) {
-            animation-delay: -2s;
-            animation-duration: 7s;
-            fill: var(--wave-3); /* 最淺 */
-        }
-        .parallax > use:nth-child(2) {
-            animation-delay: -3s;
-            animation-duration: 10s;
-            fill: var(--wave-2);
-        }
-        .parallax > use:nth-child(3) {
-            animation-delay: -4s;
-            animation-duration: 13s;
-            fill: var(--wave-1); /* 最深 */
-        }
+        .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; fill: var(--wave-deep); }
+        .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; fill: var(--wave-med); }
+        .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; fill: var(--wave-light); }
+        
         @keyframes move-forever {
             0% { transform: translate3d(-90px,0,0); }
             100% { transform: translate3d(85px,0,0); }
         }
 
-        /* --- 4. 關於我 (整合 PDF) --- */
+        /* 進入按鈕 */
+        .enter-btn {
+            pointer-events: auto; /* 恢復按鈕點擊 */
+            background: var(--deep-red);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(212, 93, 93, 0.3);
+        }
+        .enter-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            background: var(--primary-pink);
+        }
+
+        /* =========================================
+           5. 關於我 (About)
+           ========================================= */
         #about { background-color: #fff; }
+        
         .about-layout {
             display: flex;
             flex-wrap: wrap;
             max-width: 1000px;
-            gap: 40px;
+            gap: 50px;
             align-items: center;
             justify-content: center;
         }
@@ -214,15 +226,15 @@
             min-width: 300px;
             text-align: center;
         }
-        /* 照片樣式：圓形且有不規則邊框，感覺更有機 */
         .profile-img {
-            width: 300px;
-            height: 300px;
+            width: 280px;
+            height: 280px;
             object-fit: cover;
-            border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%; /* 有機形狀 */
-            box-shadow: 10px 10px 0px var(--wave-2);
-            transition: all 0.5s ease;
+            /* 有機形狀邊框 */
+            border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
+            box-shadow: 15px 15px 0px var(--wave-med);
             animation: morph 8s ease-in-out infinite;
+            transition: 0.5s;
         }
         @keyframes morph {
             0% { border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%; }
@@ -233,74 +245,81 @@
         .about-content {
             flex: 1.5;
             min-width: 300px;
-            text-align: left;
         }
         .about-content h2 {
-            color: var(--accent-color);
-            border-bottom: 3px solid var(--wave-2);
+            color: var(--deep-red);
+            border-bottom: 3px solid var(--wave-med);
             display: inline-block;
-            padding-bottom: 5px;
+            margin-bottom: 20px;
         }
         .bio-text {
             line-height: 1.8;
-            font-size: 1.05rem;
             margin-bottom: 20px;
         }
-        .highlight-list {
-            list-style: none;
-            padding: 0;
+        .highlight-box {
             background: #fff0e6;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px;
         }
-        .highlight-list li {
-            margin-bottom: 10px;
-            padding-left: 20px;
+        .highlight-box li {
+            list-style: none;
+            margin-bottom: 8px;
             position: relative;
+            padding-left: 20px;
         }
-        .highlight-list li::before {
+        .highlight-box li::before {
             content: "♥";
-            color: var(--accent-color);
+            color: var(--deep-red);
             position: absolute;
             left: 0;
         }
+        .social-links a {
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: none;
+            color: white;
+            background: var(--text-brown);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .social-links a:hover {
+            background: var(--deep-red);
+            transform: translateY(-2px);
+        }
 
-        /* --- 5. 學經歷：Q彈互動卡片 --- */
-        #experience { background-color: #fff9f5; }
+        /* =========================================
+           6. 學經歷 (Experience) - Q彈卡片
+           ========================================= */
+        #experience { background-color: var(--bg-cream); }
+        
         .timeline-container {
-            max-width: 800px;
             width: 100%;
+            max-width: 800px;
         }
         .exp-card {
             background: white;
             margin: 20px 0;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 貝茲曲線讓它有彈性 */
-            border-left: 8px solid var(--wave-2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 8px solid var(--wave-med);
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
-        
-        /* 活潑的互動：滑鼠移上去會放大且歪頭 */
         .exp-card:hover {
-            transform: scale(1.05) rotate(-1deg);
-            border-left-color: var(--accent-color);
-            box-shadow: 0 15px 30px rgba(212, 93, 93, 0.2);
+            transform: scale(1.03);
+            border-left-color: var(--deep-red);
+            box-shadow: 0 10px 25px rgba(212, 93, 93, 0.15);
         }
-        /* 偶數項向右歪 */
-        .exp-card:nth-child(even):hover {
-            transform: scale(1.05) rotate(1deg);
-        }
-
         .exp-year {
             font-size: 0.9rem;
-            color: var(--accent-color);
+            color: var(--deep-red);
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             margin-bottom: 5px;
         }
         .exp-title {
@@ -313,47 +332,123 @@
             overflow: hidden;
             transition: height 0.5s ease;
             color: #666;
-            font-size: 0.95rem;
+            line-height: 1.6;
         }
         .exp-card.active .exp-detail {
             height: auto;
-            padding-top: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 1px dashed #eee;
-            margin-top: 10px;
         }
-        /* 點開時的小圖示裝飾 */
+        /* 裝飾音符 */
         .exp-card::after {
             content: "🎵";
             position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 2rem;
+            right: 20px; top: 20px;
+            font-size: 1.5rem;
             opacity: 0.1;
             transition: 0.3s;
         }
         .exp-card.active::after {
             opacity: 1;
-            transform: scale(1.2) rotate(20deg);
+            transform: rotate(20deg) scale(1.2);
         }
 
-        /* --- 按鈕樣式 --- */
-        .btn {
-            display: inline-block;
-            background: var(--accent-color);
-            color: white;
-            padding: 10px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
+        /* =========================================
+           7. 生命成果 (Portfolio) - 瀑布流相簿
+           ========================================= */
+        #portfolio { background-color: #fff; }
+        
+        .filter-buttons {
+            margin-bottom: 40px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        .btn:hover {
-            background: var(--primary-color);
-            transform: translateY(-3px);
+        .filter-btn {
+            border: 2px solid var(--deep-red);
+            background: transparent;
+            color: var(--deep-red);
+            padding: 8px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--deep-red);
+            color: white;
             box-shadow: 0 5px 15px rgba(212, 93, 93, 0.3);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1100px;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 280px;
+            cursor: zoom-in;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(93, 64, 55, 0.8), transparent);
+            color: white;
+            padding: 20px;
+            opacity: 0;
+            transition: 0.3s;
+            transform: translateY(10px);
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 燈箱 (Lightbox) */
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(93, 64, 55, 0.95);
+            z-index: 20000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 80vh;
+            border: 4px solid white;
+            border-radius: 5px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+        }
+        #lightbox-caption {
+            color: white;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
         }
 
     </style>
@@ -364,7 +459,7 @@
         <source src="ocean.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="start-overlay" onclick="startSite()">
+    <div id="start-overlay" onclick="startJourney()">
         <div class="heart-loader"></div>
         <div class="click-hint">點擊喚醒生命</div>
     </div>
@@ -372,8 +467,8 @@
     <nav id="navbar">
         <a href="#home">首頁</a>
         <a href="#about">關於我</a>
-        <a href="#experience">經歷</a>
-        <a href="#portfolio">成果</a>
+        <a href="#experience">生命歷程</a>
+        <a href="#portfolio">成果相簿</a>
     </nav>
 
     <section id="home">
@@ -384,21 +479,17 @@
             <div class="slogan-sub">
                 在教學中喚醒感知 ・ 在表演中轉化生命
             </div>
-            <br>
-            <button class="btn" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">進入旅程</button>
+            <button class="enter-btn" onclick="document.getElementById('about').scrollIntoView()">進入旅程</button>
         </div>
 
         <div class="waves-container">
-            <svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-            <defs>
-            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-            </defs>
-            <g class="parallax">
-            <use xlink:href="#gentle-wave" x="48" y="0" opacity="0.7" />
-            <use xlink:href="#gentle-wave" x="48" y="3" opacity="0.5" />
-            <use xlink:href="#gentle-wave" x="48" y="5" opacity="0.3" />
-            </g>
+            <svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" /></defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" opacity="0.7" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" opacity="0.5" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" opacity="0.3" />
+                </g>
             </svg>
         </div>
     </section>
@@ -406,7 +497,7 @@
     <section id="about">
         <div class="about-layout">
             <div class="profile-img-box">
-                <img src="profile.jpg.jpg" alt="劉羿伶" class="profile-img">
+                <img src="profile.jpg" alt="劉羿伶" class="profile-img" onerror="this.src='https://placehold.co/300x300?text=Yi-Lin'">
             </div>
             <div class="about-content">
                 <h2>劉羿伶 Yi-Lin Liu</h2>
@@ -415,25 +506,23 @@
                     <br><br>
                     在人生歷程中經歷多重工作與角色轉換後，對表演藝術的熱情始終未曾消退，因而重返劇場持續精進與實踐。現以演奏者、教育工作者與創作者的多重身分，於舞台與生活之間持續耕耘。
                 </p>
-                <ul class="highlight-list">
+                <ul class="highlight-box">
                     <li><strong>現任：</strong>《台北打擊樂團》資深團員</li>
                     <li><strong>現任：</strong>《身聲劇場》培訓團員</li>
                     <li><strong>現任：</strong> 新北市立榮富國小 打擊樂老師</li>
                     <li><strong>學歷：</strong> 國立臺灣師範大學 表演藝術研究所（表演創作組）</li>
                 </ul>
-                <div>
-                    <a href="https://www.facebook.com" target="_blank" class="btn">Facebook</a>
-                    <a href="https://www.instagram.com" target="_blank" class="btn">Instagram</a>
-                    <a href="mailto:evilisa12350@gmail.com" class="btn">聯絡我</a>
+                <div class="social-links">
+                    <a href="https://facebook.com" target="_blank">Facebook</a>
+                    <a href="https://instagram.com" target="_blank">Instagram</a>
+                    <a href="mailto:evilisa12350@gmail.com">聯絡我</a>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="experience">
-        <h2 style="color: var(--accent-color);">生命歷程</h2>
-        <p style="margin-bottom: 30px; color: #888;">點擊卡片查看詳細故事</p>
-        
+        <h2 style="color: var(--deep-red); margin-bottom: 40px;">生命歷程</h2>
         <div class="timeline-container">
             
             <div class="exp-card" onclick="toggleExp(this)">
@@ -443,8 +532,7 @@
                     從音樂跨足戲劇，參與多部身聲劇場與音樂劇作品：<br>
                     ● 2025《魚仔合鳥仔》（畢業製作獨角戲）<br>
                     ● 2024《偏枯記》、《摘星星的人》<br>
-                    ● 2021 音樂劇《山海經傳》、《小時光玩具店》<br>
-                    透過身體與聲音，探索表演的無限可能。
+                    ● 2021 音樂劇《山海經傳》、《小時光玩具店》
                 </div>
             </div>
 
@@ -452,8 +540,7 @@
                 <div class="exp-year">2010 - 2024</div>
                 <div class="exp-title">擊樂教育與傳承</div>
                 <div class="exp-detail">
-                    連續十三年帶領學生參加全國音樂比賽皆獲「優等」佳績。<br>
-                    曾任榮富國小、同榮國小駐校藝術家，並創立【土豆支音樂種子樂團】，致力於推廣弱勢兒少藝文發展，讓打擊樂成為孩子們自信的來源。
+                    曾任榮富國小、同榮國小駐校藝術家，並創立【土豆支音樂種子樂團】，致力於推廣弱勢兒少藝文發展。連續十三年帶領學生參加全國音樂比賽皆獲「優等」佳績。
                 </div>
             </div>
 
@@ -466,69 +553,151 @@
                     帶著台灣的聲音走遍世界，用節奏跨越語言的隔閡。
                 </div>
             </div>
+            
+        </div>
+    </section>
 
+    <section id="portfolio">
+        <h2 style="color: var(--deep-red);">生命成果</h2>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterGallery('all')">全部</button>
+            <button class="filter-btn" onclick="filterGallery('performance')">擊樂表演</button>
+            <button class="filter-btn" onclick="filterGallery('teaching')">擊樂教學</button>
+            <button class="filter-btn" onclick="filterGallery('art')">表演藝術</button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-container">
+            </div>
+
+        <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img" src="">
+            <div id="lightbox-caption"></div>
         </div>
     </section>
 
     <script>
-        // 1. 網站啟動邏輯
-        function startSite() {
+        /* ==================== 1. 設定與資料庫 ==================== */
+        // 這裡設定你的相簿照片
+        // 類別：performance (表演), teaching (教學), art (藝術)
+        // src: 你的檔案名稱
+        const portfolioData = [
+            { category: 'performance', src: 'perform-01.jpg', title: '舞台演出精彩瞬間' },
+            { category: 'performance', src: 'perform-02.jpg', title: '台北打擊樂團公演' },
+            { category: 'teaching',    src: 'teach-01.jpg',   title: '榮富國小教學側拍' },
+            { category: 'teaching',    src: 'teach-02.jpg',   title: '與孩子們的節奏課' },
+            { category: 'art',         src: 'art-01.jpg',     title: '身聲劇場排練' },
+            { category: 'art',         src: 'art-02.jpg',     title: '跨界藝術創作' },
+            // 你可以在這裡繼續複製新增...
+        ];
+
+        /* ==================== 2. 功能邏輯 ==================== */
+
+        // A. 啟動網站 (點擊愛心後)
+        function startJourney() {
             const overlay = document.getElementById('start-overlay');
             const nav = document.getElementById('navbar');
             const audio = document.getElementById('audio-bg');
 
-            // 愛心放大消失
-            overlay.style.transform = "scale(1.5)";
+            // 動畫淡出
             overlay.style.opacity = "0";
+            overlay.style.transform = "scale(1.2)";
             
             setTimeout(() => {
                 overlay.style.display = 'none';
                 nav.style.display = 'block'; // 顯示導覽列
-            }, 800);
+            }, 1000);
 
-            // 嘗試播放聲音
-            audio.volume = 0.3;
-            audio.play().catch(e => console.log("需使用者互動才能播放"));
+            // 播放海浪聲
+            audio.volume = 0.4;
+            audio.play().catch(e => console.log("瀏覽器阻擋自動播放，或找不到音檔"));
         }
 
-        // 2. 經歷卡片展開
-        function toggleExp(card) {
-            // 先關閉其他的
-            document.querySelectorAll('.exp-card').forEach(c => {
-                if(c !== card) c.classList.remove('active');
-            });
-            // 切換當前的
-            card.classList.toggle('active');
-        }
-
-        // 3. 主頁生成式小生物 (滑鼠移動特效)
+        // B. 主頁互動 (生成彩色泡泡)
         const homeSection = document.getElementById('home');
-        
         homeSection.addEventListener('mousemove', function(e) {
-            // 限制生成頻率，以免太多
-            if(Math.random() > 0.1) return;
+            if(Math.random() > 0.15) return; // 控制生成頻率
 
             const spore = document.createElement('div');
             spore.classList.add('spore');
             
-            // 隨機大小與顏色
             const size = Math.random() * 20 + 5;
             spore.style.width = size + 'px';
             spore.style.height = size + 'px';
             spore.style.left = e.clientX + 'px';
             spore.style.top = e.clientY + 'px';
             
-            // 隨機顏色：粉、橘、白
-            const colors = ['#e68a8a', '#fad0c4', '#ffffff', '#ff9a9e'];
+            // 隨機暖色系顏色
+            const colors = ['#e68a8a', '#fad0c4', '#ffffff', '#ff9a9e', '#d45d5d'];
             spore.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 
             homeSection.appendChild(spore);
-
-            // 動畫結束後移除
-            setTimeout(() => {
-                spore.remove();
-            }, 2000);
+            setTimeout(() => { spore.remove(); }, 2000); // 2秒後消失
         });
+
+        // C. 學經歷卡片展開
+        function toggleExp(card) {
+            const isActive = card.classList.contains('active');
+            // 先關閉所有
+            document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('active'));
+            // 如果原本沒開，就打開
+            if(!isActive) card.classList.add('active');
+        }
+
+        // D. 相簿渲染與過濾
+        const galleryContainer = document.getElementById('gallery-container');
+
+        function renderGallery(filter) {
+            galleryContainer.innerHTML = ''; // 清空
+            
+            portfolioData.forEach(item => {
+                if (filter === 'all' || item.category === filter) {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item';
+                    div.onclick = () => openLightbox(item.src, item.title);
+                    
+                    div.innerHTML = `
+                        <img src="${item.src}" alt="${item.title}" onerror="this.src='https://placehold.co/400x300/e68a8a/white?text=No+Image'">
+                        <div class="gallery-overlay">
+                            <h4>${item.title}</h4>
+                        </div>
+                    `;
+                    galleryContainer.appendChild(div);
+                }
+            });
+        }
+
+        // 切換相簿按鈕
+        function filterGallery(category) {
+            // 更新按鈕狀態
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                // 簡單判斷按鈕文字對應
+                const btnText = btn.innerText;
+                if((category==='all' && btnText==='全部') || 
+                   (category==='performance' && btnText==='擊樂表演') ||
+                   (category==='teaching' && btnText==='擊樂教學') ||
+                   (category==='art' && btnText==='表演藝術')) {
+                    btn.classList.add('active');
+                }
+            });
+            renderGallery(category);
+        }
+
+        // E. 燈箱控制
+        function openLightbox(src, title) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-caption').innerText = title;
+            lb.style.display = 'flex';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // 初始化：渲染全部相片
+        renderGallery('all');
+
     </script>
 </body>
 </html>
